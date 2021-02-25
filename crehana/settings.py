@@ -73,10 +73,12 @@ WSGI_APPLICATION = 'crehana.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# I'm continuing using sqlite3 for project purpose, but it should be change to other
+# like postgresql, but to do that I should install psycopg2
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'crehana.sqlite3',
     }
 }
 
