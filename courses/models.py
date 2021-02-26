@@ -6,25 +6,25 @@ from django.contrib.auth.models import User
 
 class Categories(models.Model):
     name = models.CharField(max_length=255)
-    sub_categories_count = models.IntegerField(default=0)
+    sub_categories_count = models.IntegerField(default=0)  # Number of times used in subcategories
 
 
 class SubCategories(models.Model):
     name = models.CharField(max_length=255)
-    courses_count = models.IntegerField(default=0)
-    course = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    courses_count = models.IntegerField(default=0)  # Number of times used at courses
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
 
 @receiver(post_save, sender=SubCategories, dispatch_uid="update_sub_categories_count")
 def update_sub_categories_count(sender, instance, **kwargs):
-    instance.course.sub_categories_count += 1
-    instance.course.save()
+    instance.category.sub_categories_count += 1
+    instance.category.save()
 
 
 @receiver(post_delete, sender=SubCategories, dispatch_uid="update_sub_categories_count")
 def update_sub_categories_count(sender, instance, **kwargs):
-    instance.course.sub_categories_count -= 1
-    instance.course.save()
+    instance.category.sub_categories_count -= 1
+    instance.category.save()
 
 
 class Courses(models.Model):
@@ -51,7 +51,7 @@ class Courses(models.Model):
 
     @property
     def category_name(self):
-        return self.subcategory.course.name
+        return self.subcategory.category.name
 
     @property
     def username(self):
