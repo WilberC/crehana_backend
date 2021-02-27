@@ -318,3 +318,5 @@ fabric.properties
 .idea/
 
 crehana.sqlite3
+
+.DS_Store

@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from ...models import Categories, SubCategories, Courses, User
 import pandas as pd
 import numpy as np
@@ -24,16 +24,12 @@ def get_excel_data():
     ))
 
 
-def get_level_options():
-    return {lvl_str: val for val, lvl_str in Courses.LEVEL_CHOICES}
-
-
 class Command(BaseCommand):
     help = 'This command will populated bd'
 
     def handle(self, *args, **options):
         # -----------------------------------------------------------------
-        level_options = get_level_options()
+        level_options = Courses.get_level_options()
         courses_created = 0
         # -----------------------------------------------------------------
         # I can clean the list and then iterate through the clean list or

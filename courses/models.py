@@ -2,14 +2,15 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from utils.models import TimeStampedModel
 
 
-class Categories(models.Model):
+class Categories(TimeStampedModel):
     name = models.CharField(max_length=255)
     sub_categories_count = models.IntegerField(default=0)  # Number of times used in subcategories
 
 
-class SubCategories(models.Model):
+class SubCategories(TimeStampedModel):
     name = models.CharField(max_length=255)
     courses_count = models.IntegerField(default=0)  # Number of times used at courses
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
@@ -27,7 +28,7 @@ def update_sub_categories_count(sender, instance, **kwargs):
     instance.category.save()
 
 
-class Courses(models.Model):
+class Courses(TimeStampedModel):
     LEVEL_CHOICES = [
         (1, "Avanzado"),
         (2, "Introductorio"),
@@ -37,7 +38,7 @@ class Courses(models.Model):
     course_name = models.CharField(max_length=255)
     subcategory = models.ForeignKey(SubCategories, on_delete=models.CASCADE)
     level = models.IntegerField(choices=LEVEL_CHOICES)
-    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     real_price = models.DecimalField(max_digits=5, decimal_places=2)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     discount = models.IntegerField(null=True, blank=True)
@@ -56,6 +57,10 @@ class Courses(models.Model):
     @property
     def username(self):
         return self.user.username
+
+    @staticmethod
+    def get_level_options():
+        return {lvl_str: val for val, lvl_str in Courses.LEVEL_CHOICES}
 
 
 @receiver(post_save, sender=Courses, dispatch_uid="update_courses_count")
