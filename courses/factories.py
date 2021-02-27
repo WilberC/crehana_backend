@@ -10,10 +10,13 @@ class UserFactory(factory.Factory):
     class Meta:
         model = models.User
 
-    user_name = fake.user_name()
+    username = fake.user_name()
     first_name = fake.first_name()
     last_name = fake.last_name()
-    admin = False
+    email = fake.free_email()
+    is_active = True
+    is_staff = False
+    is_superuser = False
 
 
 class CategoriesFactory(factory.Factory):
