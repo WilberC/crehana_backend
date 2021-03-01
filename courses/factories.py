@@ -6,7 +6,7 @@ import factory
 fake = Faker()
 
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.User
 
@@ -19,14 +19,14 @@ class UserFactory(factory.Factory):
     is_superuser = False
 
 
-class CategoriesFactory(factory.Factory):
+class CategoriesFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Categories
 
     name = fake.paragraph(nb_sentences=1)
 
 
-class SubCategoriesFactory(factory.Factory):
+class SubCategoriesFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SubCategories
 
@@ -34,7 +34,7 @@ class SubCategoriesFactory(factory.Factory):
     category = factory.SubFactory(CategoriesFactory)
 
 
-class CoursesFactory(factory.Factory):
+class CoursesFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Courses
 
