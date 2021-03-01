@@ -10,13 +10,16 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.User
 
-    username = fake.user_name()
+    username = factory.Sequence(lambda n:  f"{fake.user_name()}{n}")
     first_name = fake.first_name()
     last_name = fake.last_name()
-    email = fake.free_email()
     is_active = True
     is_staff = False
     is_superuser = False
+
+    @factory.lazy_attribute
+    def email(self):
+        return f"{self.username}@{fake.free_email_domain()}"
 
 
 class CategoriesFactory(factory.django.DjangoModelFactory):

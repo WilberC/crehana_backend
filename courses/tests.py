@@ -1,5 +1,7 @@
 from django.test import TestCase
-from .factories import CategoriesFactory, SubCategoriesFactory
+import json
+from .factories import UserFactory, CategoriesFactory, SubCategoriesFactory
+from graphene_django.utils.testing import GraphQLTestCase
 
 
 class CategoriesTest(TestCase):
@@ -34,3 +36,25 @@ class CategoriesTest(TestCase):
 
         sub_category_three.delete()
         self.assertEqual(category.sub_categories_count, 0)
+
+
+class UserGraphQLTest(GraphQLTestCase):
+    def setUp(self):
+        super().setUp()
+        # user_one = UserFactory()
+        user_one = UserFactory()
+        user_one = UserFactory()
+
+    def test_some_query(self):
+        response = self.query(
+            '''
+             {
+                users {
+                    username
+                    email
+                }
+            }
+            '''
+        )
+
+        self.assertResponseNoErrors(response)
