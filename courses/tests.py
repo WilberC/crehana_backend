@@ -43,7 +43,7 @@ class UserGraphQLTest(GraphQLTestCase):
         super().setUp()
         # user_one = UserFactory()
         user_one = UserFactory()
-        user_one = UserFactory()
+        user_two = UserFactory()
 
     def test_some_query(self):
         response = self.query(
