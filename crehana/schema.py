@@ -1,8 +1,8 @@
 from graphene import ObjectType, Schema
-from courses.schema import UserQuery
+from courses.schema import CoursesQuery
 
 
-class Query(UserQuery,
+class Query(CoursesQuery,
             ObjectType):
     pass
 
